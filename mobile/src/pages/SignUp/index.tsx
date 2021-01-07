@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Image,
   KeyboardAvoidingView,
@@ -8,9 +8,10 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-import {
-  Container, Title, BackToSignIn, BackToSignInText
-} from './styles';
+import { Form } from '@unform/mobile';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { FormHandles } from '@unform/core';
+import { Container, Title, BackToSignIn, BackToSignInText } from './styles';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import logoImg from '../../assets/logo.png';
@@ -18,6 +19,7 @@ import logoImg from '../../assets/logo.png';
 const SignUp: React.FC = () => {
   const navigation = useNavigation();
   const [isVisible, setVisible] = useState(true);
+  const formRef = useRef<FormHandles>(null);
 
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', () => setVisible(false));
@@ -38,11 +40,24 @@ const SignUp: React.FC = () => {
           <Container>
             <Image source={logoImg} />
             <Title>Crie sua conta</Title>
-            <Input name="name" icon="user" placeholder="Nome" />
-            <Input name="email" icon="mail" placeholder="E-mail" />
-            <Input name="password" icon="lock" placeholder="Senha" />
+            <Form
+              ref={formRef}
+              onSubmit={data => {
+                console.log(data);
+              }}
+            >
+              <Input name="name" icon="user" placeholder="Nome" />
+              <Input name="email" icon="mail" placeholder="E-mail" />
+              <Input name="password" icon="lock" placeholder="Senha" />
 
-            <Button onPress={() => { }}>Entrar</Button>
+              <Button
+                onPress={() => {
+                  formRef.current?.submitForm();
+                }}
+              >
+                Cadastrar
+              </Button>
+            </Form>
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>
