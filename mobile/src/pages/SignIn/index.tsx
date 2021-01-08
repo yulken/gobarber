@@ -35,10 +35,13 @@ const SignIn: React.FC = () => {
   const handleSignIn = useCallback((data: object) => {
     console.log(data);
   }, []);
-
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', () => setVisible(false));
     Keyboard.addListener('keyboardDidHide', () => setVisible(true));
+    return () => {
+      Keyboard.removeAllListeners('keyboardDidShow');
+      Keyboard.removeAllListeners('keyboardDidHide');
+    };
   }, []);
 
   return (

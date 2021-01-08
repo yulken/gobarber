@@ -5,6 +5,7 @@ import {
   Platform,
   ScrollView,
   Keyboard,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   TextInput,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -27,6 +28,10 @@ const SignUp: React.FC = () => {
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', () => setVisible(false));
     Keyboard.addListener('keyboardDidHide', () => setVisible(true));
+    return () => {
+      Keyboard.removeAllListeners('keyboardDidShow');
+      Keyboard.removeAllListeners('keyboardDidHide');
+    };
   }, []);
 
   return (
