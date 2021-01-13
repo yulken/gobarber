@@ -6,6 +6,7 @@ import {
   ScrollView,
   Keyboard,
   View,
+  Alert,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   TextInput,
 } from 'react-native';
@@ -13,7 +14,8 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
-
+import * as Yup from 'yup';
+import getValidationErrors from '../../utils/getValidationErrors';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import logoImg from '../../assets/logo.png';
@@ -27,14 +29,17 @@ import {
   CreateAccountButtonText,
 } from './styles';
 
+interface SignInFormData {
+  email: string;
+  password: string;
+}
+
 const SignIn: React.FC = () => {
   const [isVisible, setVisible] = useState(true);
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
-  const handleSignIn = useCallback((data: object) => {
-    console.log(data);
-  }, []);
+
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', () => setVisible(false));
     Keyboard.addListener('keyboardDidHide', () => setVisible(true));
@@ -42,6 +47,36 @@ const SignIn: React.FC = () => {
       Keyboard.removeAllListeners('keyboardDidShow');
       Keyboard.removeAllListeners('keyboardDidHide');
     };
+  }, []);
+
+  const handleSignIn = useCallback(async (data: SignInFormData) => {
+    try {
+      formRef.current?.setErrors({});
+      const schema = Yup.object().shape({
+        email: Yup.string()
+          .required('E-mail obrigatório')
+          .email('Digite um email válido'),
+        password: Yup.string().required('Senha obrigatória'),
+      });
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+      //   await signIn({
+      //     email: data.email,
+      //     password: data.password,
+      //   });
+
+      //   history.push('/dashboard');
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(err);
+        formRef.current?.setErrors(errors);
+      }
+      Alert.alert(
+        'Erro na autenticação',
+        'Ocorreu um erro ao fazer login, cheque as credenciais',
+      );
+    }
   }, []);
 
   return (
