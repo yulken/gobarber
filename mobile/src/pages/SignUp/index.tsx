@@ -54,7 +54,6 @@ const SignUp: React.FC = () => {
           email: Yup.string().required('E-mail obrigatório').email(),
           password: Yup.string().min(6, 'No mínimo 6 dígitos'),
         });
-        console.log(data);
         await schema.validate(data, {
           abortEarly: false,
         });
@@ -69,7 +68,6 @@ const SignUp: React.FC = () => {
           const errors = getValidationErrors(err);
           formRef.current?.setErrors(errors);
         }
-        console.log(err);
         Alert.alert(
           'Erro no cadastro',
           'Ocorreu um erro ao cadastrar, tente novamente.',
