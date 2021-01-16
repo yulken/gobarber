@@ -15,6 +15,8 @@ import { Form } from '@unform/mobile';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
+import api from '../../services/api';
+
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import { Container, Title, BackToSignIn, BackToSignInText } from './styles';
@@ -43,33 +45,39 @@ const SignUp: React.FC = () => {
       Keyboard.removeAllListeners('keyboardDidHide');
     };
   }, []);
-  const handleSignUp = useCallback(async (data: SignUpFormData) => {
-    formRef.current?.setErrors({});
-    try {
-      const schema = Yup.object().shape({
-        name: Yup.string().required('Nome obrigatório'),
-        email: Yup.string().required('E-mail obrigatório').email(),
-        password: Yup.string().min(6, 'No mínimo 6 dígitos'),
-      });
-
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-
-      // await api.post('/users', data);
-
-      // history.push('/');
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
-        formRef.current?.setErrors(errors);
+  const handleSignUp = useCallback(
+    async (data: SignUpFormData) => {
+      formRef.current?.setErrors({});
+      try {
+        const schema = Yup.object().shape({
+          name: Yup.string().required('Nome obrigatório'),
+          email: Yup.string().required('E-mail obrigatório').email(),
+          password: Yup.string().min(6, 'No mínimo 6 dígitos'),
+        });
+        console.log(data);
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+        await api.post('/users', data);
+        Alert.alert(
+          'Cadastro realizado com sucesso!',
+          'Você já pode fazer login na aplicação.',
+        );
+        navigation.goBack();
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+          formRef.current?.setErrors(errors);
+        }
+        console.log(err);
+        Alert.alert(
+          'Erro no cadastro',
+          'Ocorreu um erro ao cadastrar, tente novamente.',
+        );
       }
-      Alert.alert(
-        'Erro no cadastro',
-        'Ocorreu um erro ao cadastrar, tente novamente.',
-      );
-    }
-  }, []);
+    },
+    [navigation],
+  );
   return (
     <>
       <KeyboardAvoidingView
