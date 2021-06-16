@@ -1,0 +1,19 @@
+@url=http://localhost:3333
+
+POST {{url}}/sessions
+Content-Type: application/json
+
+{
+  "email": "caio.torres@gmail.com",
+  "password": "123456"
+}
+
+### Cria novo usuário
+POST {{url}}/users
+Content-Type: application/json
+
+{
+  "name": "Caio Torres",
+  "email": "caio.torres@gmail.com",
+  "password": "123456"
+}
