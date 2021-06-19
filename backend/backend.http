@@ -1,11 +1,12 @@
 @url=http://localhost:3333
 
+### Autentica usuário
 POST {{url}}/sessions
 Content-Type: application/json
 
 {
   "email": "caio.torres@gmail.com",
-  "password": "123456"
+  "password": "123123"
 }
 
 ### Cria novo usuário
@@ -17,3 +18,20 @@ Content-Type: application/json
   "email": "caio.torres@gmail.com",
   "password": "123456"
 }
+###
+POST {{url}}/password/forgot
+Content-Type: application/json
+
+{
+  "email": "caio.torres@gmail.com"
+}
+###
+POST {{url}}/password/reset
+Content-Type: application/json
+
+{
+  "password": "123123",
+  "token": "b8e1ab99-98f7-4b7a-aa23-3fd568bd7d90"
+}
+
+
