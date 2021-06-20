@@ -1,11 +1,11 @@
 @url=http://localhost:3333
-
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MjQxNTEzNjAsImV4cCI6MTYyNDIzNzc2MCwic3ViIjoiY2Q0YzNmNjQtZDUyMS00ZmYxLWJkZjctMGNjZTVhOGQ4NzIzIn0.x_skDtR5tgGKcPVrD0FTWPdFQpGOTeLmlP-gHcrt7G8
 ### Autentica usuário
 POST {{url}}/sessions
 Content-Type: application/json
 
 {
-  "email": "caio.torres@gmail.com",
+  "email": "caiocftorres@gmail.com",
   "password": "123123"
 }
 
@@ -33,5 +33,26 @@ Content-Type: application/json
   "password": "123123",
   "token": "b8e1ab99-98f7-4b7a-aa23-3fd568bd7d90"
 }
+###
+GET {{url}}/profile
+Authorization: Bearer {{token}}
+### Altreracao de nome/email
+PUT {{url}}/profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
 
+{
+  "name": "Caio Cesar Fernandes Torres",
+  "email": "caiocftorres@gmail.com"
+}
+### Altreracao de senha
+PUT {{url}}/profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
 
+{
+  "name": "Caio Cesar Fernandes Torres",
+  "email": "caiocftorres@gmail.com",
+  "old_password": "123123",
+  "password": "12345678"
+}
