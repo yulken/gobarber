@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { getMonth, getYear } from 'date-fns';
+import { getDate, getMonth, getYear } from 'date-fns';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointmentDTO';
 
@@ -28,7 +28,6 @@ class AppointmentsRepository implements IAppointmentsRepository {
         getYear(appointment.date) === year
       );
     });
-    console.log(appointments);
     return appointments;
   }
 
