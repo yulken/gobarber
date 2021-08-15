@@ -15,6 +15,7 @@ describe('ListProviders', () => {
   it('should be able to list month availability by provider', async () => {
     const promises = Array.from({ length: 10 }, (_, index) => {
       return fakeAppointmentsRepository.create({
+        user_id: '123456',
         provider_id: 'user',
         date: new Date(2021, 9, 20, index + 8, 0, 0),
       });
