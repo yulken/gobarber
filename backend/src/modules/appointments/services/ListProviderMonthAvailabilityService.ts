@@ -9,7 +9,7 @@ interface IRequest {
 }
 
 @injectable()
-export default class ShowProfileService {
+export default class ListProviderMonthAvailabilityService {
   constructor(
     @inject('AppointmentsRepository')
     private appointmentsRepository: IAppointmentsRepository,

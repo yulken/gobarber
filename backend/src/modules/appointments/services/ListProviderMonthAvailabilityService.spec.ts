@@ -28,5 +28,6 @@ describe('ListProviders', () => {
     });
 
     expect(availability).toEqual(expect.not.arrayContaining([20]));
+    expect(availability).toEqual(expect.arrayContaining([19, 21, 22]));
   });
 });
