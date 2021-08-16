@@ -44,17 +44,16 @@ class AppointmentsRepository implements IAppointmentsRepository {
     year,
     day,
   }: IFindAllInDayByProviderDTO): Promise<Appointment[]> {
-    const firstDate = new Date(year, month + 1, day);
-    const lastDate = new Date(year, month + 1, day + 1);
+    const firstDate = new Date(year, month - 1, day);
+    const lastDate = new Date(year, month - 1, day + 1);
     lastDate.setMinutes(lastDate.getMinutes() - 1);
 
-    const appointments = this.ormRepository.find({
+    const appointments = await this.ormRepository.find({
       where: {
         provider_id,
         date: Between(firstDate, lastDate),
       },
     });
-
     return appointments;
   }
 
