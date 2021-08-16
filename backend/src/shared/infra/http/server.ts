@@ -9,7 +9,7 @@ import '@shared/container';
 import { errors } from 'celebrate';
 import routes from './routes';
 import 'reflect-metadata';
-
+// todo configure production environment
 const app = express();
 app.use(cors());
 app.use(express.json());
