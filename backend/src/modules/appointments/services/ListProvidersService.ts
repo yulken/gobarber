@@ -27,6 +27,7 @@ export default class ShowProfileService {
       users = await this.usersRepository.findAllProviders({
         id_exception: user_id,
       });
+      console.log('QUERY');
       await this.cacheProvider.save<User[]>(`providers-list:${user_id}`, users);
     }
 
